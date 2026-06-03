@@ -10,7 +10,7 @@ app-signature- and connection-statistics should started manually
 Left: The buttons to start "Analyse rules", "Analyse apps", "Analyse connections",
 "Options" and "Help"    
 
-![Vigil Fluminis](Vigil Fluminis_256.png)
+![Vigil Fluminis](Vigil_Fluminis_256.png)
 
 # criteria for suspicious-score:    
 Online access was deliberately forgone—which, naturally, meant sacrificing up-to-date information.
