@@ -15,7 +15,7 @@ Left: The buttons to start "Analyse rules", "Analyse apps", "Analyse connections
 # criteria for suspicious-score:    
 Online access was deliberately forgone—which, naturally, meant sacrificing up-to-date information.
 
-- ports(resources/threads.json): The ports represent general security knowledge drawn from established    sources: Microsoft documentation, OWASP, SANS, CISA recommendations, and decades of exploit observation    (e.g., RDP = most frequent brute-force target; SMB 445 = EternalBlue/WannaCry; RPC 135 = remote     exploitation). There is no single "source"—rather, it represents the established consensus regarding     services that should never be exposed to the Internet without protection.    
+- ports(resources/threads.json): The ports represent general security knowledge drawn from established    sources: Microsoft documentation, OWASP, SANS, CISA recommendations   
   
 - malwarenames (resources/known_malware.json): genuine, documented malware families (ransomware, banking    Trojans, RATs, botnets, worms, stealers, miners, rootkits). Sources include MalwareBazaar, Microsoft    Threat Intelligence, CISA KEV, and SANS Top Malware.   
 
