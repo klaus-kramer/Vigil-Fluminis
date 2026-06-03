@@ -1,0 +1,4 @@
+Vigil Fluminis - Copyright © 2026 Klaus Kramer. All rights reserved.
+
+The software may be downloaded and used free of charge.
+Redistribution of the unmodified binary is permitted. Modification, decompilation, and commercial use are not permitted without express permission.
