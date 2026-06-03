@@ -30,6 +30,3 @@ AppData (Roaming) – forexample C:\Users\...\AppData\Roaming
 - fileage from timestamp:
 < 15 days and > 4 years    
 
-# Questions/Suggestions:
-please open an issue with question or suggestion at start of the title    
-
