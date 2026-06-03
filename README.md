@@ -4,7 +4,7 @@ Analyse and manage firewall rules for Windows. A check against various criteria 
 
 # Usage:    
 Main Window:    
-Top left the user can switch firewall and firewallservice on/off.    
+Top left switch firewall and firewallservice on/off.    
 Top right: the rulestatistics    
 app-signature- and connection-statistics should started manually    
 Left: The buttons to start "Analyse rules", "Analyse apps", "Analyse connections",
