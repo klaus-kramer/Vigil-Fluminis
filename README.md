@@ -1,6 +1,7 @@
 # Vigil-Fluminis - Guardian of the river    
     
 Analyse and manage firewall rules for Windows. A check against various criteria to generate a "suspicious" score that can assist the user during evaluation.    
+Built with Qt 6 / C++17. No installer, just unzip and run.
 
 # Usage:    
 Main Window:    
@@ -27,6 +28,8 @@ Temp – %TEMP% (forexample C:\Users\...\AppData\Local\Temp)
 Downloads    
 AppData (Local) – forexample C:\Users\...\AppData\Local    
 AppData (Roaming) – forexample C:\Users\...\AppData\Roaming    
+
+- signed / unsigned apps
 
 - fileage from timestamp:
 < 15 days and > 4 years    
