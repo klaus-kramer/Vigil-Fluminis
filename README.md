@@ -15,14 +15,13 @@ Left: The buttons to start "Analyse rules", "Analyse apps", "Analyse connections
 # criteria for suspicious-score:    
 Online access was deliberately forgone—which, naturally, meant sacrificing up-to-date information.
 
-- ports(resources/threads.json): The ports represent general security knowledge drawn from established    sources: Microsoft documentation, OWASP, SANS, CISA recommendations   
+- ports(resources/threads.json): The ports represent general security knowledge drawn from established sources    
   
-- malwarenames (resources/known_malware.json): genuine, documented malware families (ransomware, banking    Trojans, RATs, botnets, worms, stealers, miners, rootkits). Sources include MalwareBazaar, Microsoft    Threat Intelligence, CISA KEV, and SANS Top Malware.   
+- malwarenames (resources/known_malware.json): genuine, documented malware families (ransomware, botnets, worms, stealers, miners, rootkits)    
 
-- ip(resources/ip:reputation.json): Safe (54 CIDRs): known legitimate services – Google/Gmail/DNS,    Cloudflare, Microsoft, Amazon AWS, GitHub, GitLab, Stack Overflow, etc.    
-Suspicious – Spamhaus DROP (46 CIDRs): A curated subset of the Spamhaus DROP List (Don't Route Or Peer) –  known malicious networks.    
-Cloud Hosting (68 CIDRs): Published IP ranges from DigitalOcean and Hetzner (labeled as "(C2 risk)"    because these networks are frequently abused for Command & Control).    
-
+- ip(resources/ip:reputation.json): Safe (54 CIDRs): known legitimate services    
+Suspicious – known malicious networks, networks that are frequently abused for Command & Control
+    
 - suspicions directories:
 Temp – %TEMP% (forexample C:\Users\...\AppData\Local\Temp)    
 Downloads    
