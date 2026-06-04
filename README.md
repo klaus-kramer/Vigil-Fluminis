@@ -31,3 +31,5 @@ AppData (Roaming) – forexample C:\Users\...\AppData\Roaming
 - fileage from timestamp:
 < 15 days and > 4 years    
 
+# Please note:
+Since connections required for proper functionality may also be flagged as potentially suspicious (e.g., based on IP/port), please exercise caution and do not delete any connection until you are certain that it is not required. As a precautionary measure, a backup of the rules is created in the "backups" directory.    
