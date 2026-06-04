@@ -20,7 +20,7 @@ Online access was deliberately forgone—which, naturally, meant sacrificing up-
   
 - malwarenames (resources/known_malware.json): genuine, documented malware families (ransomware, botnets, worms, stealers, miners, rootkits)    
 
-- ip(resources/ip:reputation.json): Safe (54 CIDRs): known legitimate services    
+- ip(resources/ip:reputation.json): Safe: known legitimate services    
 Suspicious – known malicious networks, networks that are frequently abused for Command & Control
     
 - suspicions directories:
