@@ -1,7 +1,7 @@
 # Vigil-Fluminis - Guardian of the river    
     
 Analyse and manage firewall rules for Windows. A check against various criteria to generate a "suspicious" score that can assist the user during evaluation.    
-Built with Qt 6 / C++17. No installer, just unzip and run.
+Built with C++/Qt. No installer, just unzip and run.
 
 # Usage:    
 Main Window:    
