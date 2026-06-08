@@ -7,7 +7,7 @@ Built with C++/Qt. No installer, just unzip the Release and run.
 - Firewall rule analysis with risk scoring    
 - Active connection monitoring with IP reputation checks    
 - App signature verification    
-- **Trojan detection test** – detects data exchange during user input (admin req.)    
+- Trojan detection test – detects data exchange during user input (admin req.)    
 
 # Usage:    
 Main Window:    
