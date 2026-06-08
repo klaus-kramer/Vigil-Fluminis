@@ -1,6 +1,6 @@
 # Vigil-Fluminis - Guardian of the river    
     
-WindowsfirewallAnalysis. A check against various criteria to generate a "suspicious" score that can assist the user during evaluation.    
+Windows Firewall Analysis. A check against various criteria to generate a "suspicious" score that can assist the user during evaluation.    
 Built with C++/Qt. No installer, just unzip the Release and run.
 
 ## Features
