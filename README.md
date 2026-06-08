@@ -1,7 +1,12 @@
 # Vigil-Fluminis - Guardian of the river    
     
-Analyse and manage firewall rules for Windows. A check against various criteria to generate a "suspicious" score that can assist the user during evaluation.    
+WindowsfirewallAnalysis. A check against various criteria to generate a "suspicious" score that can assist the user during evaluation.    
 Built with C++/Qt. No installer, just unzip the Release and run.
+
+## Features
+- Firewall rule analysis with risk scoring
+- Active connection monitoring with IP reputation checks
+- App signature verification
 
 # Usage:    
 Main Window:    
