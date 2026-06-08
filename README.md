@@ -8,8 +8,8 @@ Main Window:
 Top left switch firewall and firewallservice on/off.    
 Top right: the rulestatistics    
 app-signature- and connection-statistics should started manually    
-Left: The buttons to start "Analyse rules", "Analyse apps", "Analyse connections",
-"Options" and "Help"    
+Left: The buttons to start "Analyse rules", "Analyse apps", "Analyse connections",    
+"Trojan test with admin", "Options" and "Help"    
 
 ![Vigil Fluminis](Vigil_Fluminis_256.png)
 
@@ -36,3 +36,6 @@ AppData (Roaming) – forexample C:\Users\...\AppData\Roaming
 
 # Please note:
 Since connections required for proper functionality may also be flagged as potentially suspicious (e.g., based on IP/port), please exercise caution and do not delete any connection until you are certain that it is not required. As a precautionary measure, a backup of the rules is created in the "backups" directory.    
+
+# Trojan test:
+The "Trojan test with admin" button launches a simple Trojan keylogger test that identifies programs transmitting data while the user is typing; this requires administrator privileges. Naturally, this method would not detect Trojans that buffer data rather than transmitting it immediately. Users can easily test this by visiting a search engine, starting the test, typing something into the search engine (e.g., www.google.com), and stopping the test—at which point the browser should appear in the results.    
