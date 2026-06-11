@@ -8,7 +8,7 @@ Built with C++/Qt/llama.cpp. No installer, just unzip the Release and run.
 - Active connection monitoring with IP reputation checks    
 - App signature verification
 - optional: locally running AI assistant for evaluation of the rule/app/connection    
-- Trojan detection test – detects data exchange during user input (admin req.)    
+- simple Trojan detection test – detects data exchange during user input (admin req.)    
 
 ![Vigil Fluminis](Vigil_Fluminis_256.png)
 
