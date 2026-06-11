@@ -7,7 +7,7 @@ Built with C++/Qt/llama.cpp. No installer, just unzip the Release and run.
 - Firewall rule analysis with risk scoring    
 - Active connection monitoring with IP reputation checks    
 - App signature verification
-- locally running AI assistant for evaluation of the rule/app/connection    
+- optional: locally running AI assistant for evaluation of the rule/app/connection    
 - Trojan detection test – detects data exchange during user input (admin req.)    
 
 # Usage:    
@@ -48,7 +48,7 @@ Since connections required for proper functionality may also be flagged as poten
 # Trojan test:
 The "Trojan test with admin" button launches a simple Trojan-keylogger-test that identifies programs transmitting data outgoing while the user is typing; this requires administrator privileges. Naturally, this method would not detect Trojans that buffer data rather than transmitting it immediately. Users can easily test this by visiting a search engine, starting the test, typing something into the search engine (e.g., www.google.com), and stopping the test—at which point the browser should appear in the results.    
 
-# AI assistant:    
+# AI assistant (optional):    
 - First you have to download an AI - suggestion Phi-3-mini-4k-instruct-q4    
 [downloadlink phi-3-mini-4k](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf)
 and put it for example in the models-directory. (btw:qwen2.5-7b-q4_k_m-imat would also work for example.)        
