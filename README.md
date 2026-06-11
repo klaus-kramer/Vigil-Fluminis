@@ -54,5 +54,5 @@ The "Trojan test with admin" button launches a simple Trojan-keylogger-test that
 and put it for example in the models-directory. (btw:qwen2.5-7b-q4_k_m-imat would also work for example.)        
 - in Vigil Fluminis open options->AI settings->modelfile and select the model    
 - in Vigil Fluminis open options->AI settings->Enable AI assistant->Check    
-- now it should work if you select an entry in rules/apps/connections and klick "Ask AI" in menu    
+- now it should work if you select an entry in rules/apps/connections and klick "Ask AI" in topmenu    
 - the AI runs locally on your computer without connection to internet    
