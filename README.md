@@ -10,6 +10,8 @@ Built with C++/Qt/llama.cpp. No installer, just unzip the Release and run.
 - optional: locally running AI assistant for evaluation of the rule/app/connection    
 - Trojan detection test – detects data exchange during user input (admin req.)    
 
+![Vigil Fluminis](Vigil_Fluminis_256.png)
+
 # Usage:    
 Main Window:    
 Top left switch firewall and firewallservice on/off.    
@@ -18,8 +20,6 @@ app-signature- and connection-statistics should started manually
 Left: The buttons to start "Analyse rules", "Analyse apps", "Analyse connections",    
 "Trojan test with admin", "Options" and "Help"    
 now in top menu of rules/app/connection window is a button "Ask AI" - select and ask     
-
-![Vigil Fluminis](Vigil_Fluminis_256.png)
 
 # criteria for suspicious-score:    
 Online access was deliberately forgone—which, naturally, meant sacrificing up-to-date information.
