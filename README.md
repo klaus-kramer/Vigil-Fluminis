@@ -48,7 +48,7 @@ Since connections required for proper functionality may also be flagged as poten
 # Trojan test:
 The "Trojan test with admin" button launches a simple Trojan-keylogger-test that identifies programs transmitting data outgoing while the user is typing; this requires administrator privileges. Naturally, this method would not detect Trojans that buffer data rather than transmitting it immediately. Users can easily test this by visiting a search engine, starting the test, typing something into the search engine (e.g., www.google.com), and stopping the test—at which point the browser should appear in the results.   
 
-btw: Some overzealous, paranoid antivirus programs using heuristics — which rely on indicators rather than hard evidence — may flag the tool due to its keyboard access. Rest assured, however, that keyboard access occurs only during the Trojan test. The tool is on the "good" (white/ blue) side. If you have any concerns, feel free to test the tool in a sandbox or virtual machine.       
+btw: Some overzealous, paranoid antivirus programs using heuristics — which rely on indicators rather than hard evidence — may flag the tool due to its keyboard access. Rest assured, however, that keyboard access occurs only during the Trojan test if you start it with the button. The tool is on the "good" (white/ blue) side. If you have any concerns, feel free to test the tool in a sandbox or virtual machine.       
 
 # AI assistant (optional):    
 - First you have to download an AI - suggestion Phi-3-mini-4k-instruct-q4    
