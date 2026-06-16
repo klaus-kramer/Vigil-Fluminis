@@ -57,4 +57,5 @@ and put it for example in the models-directory. (btw:qwen2.5-7b-q4_k_m-imat woul
 - in Vigil Fluminis open options->AI settings->modelfile and select the model    
 - in Vigil Fluminis open options->AI settings->Enable AI assistant->Check    
 - select an entry in rules/apps/connections and klick "Ask AI" in topmenu    
-- the AI runs locally on your computer without connection to internet    
+- the AI runs locally on your computer without connection to internet
+- now you have a windows firewall expert who explains    
