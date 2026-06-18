@@ -1,0 +1,8 @@
+Vigil Fluminis uses llama.cpp for local AI inference,
+which is licensed under the MIT License.
+
+llama.cpp is Copyright (c) 2023-2024 The llama.cpp authors.
+Source code is available at:
+  https://github.com/ggerganov/llama.cpp
+
+A copy of the MIT license is provided in LICENSES/MIT.txt.

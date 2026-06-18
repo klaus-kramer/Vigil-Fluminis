@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Vigil Fluminis - Guardian of the river</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="centralLayout">
+    <property name="spacing">0</property>
+    <property name="leftMargin">0</property>
+    <property name="topMargin">0</property>
+    <property name="rightMargin">0</property>
+    <property name="bottomMargin">0</property>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="overviewPage"/>
+      <widget class="QWidget" name="rulesPage">
+       <layout class="QVBoxLayout" name="rulesLayout">
+        <property name="spacing">0</property>
+        <property name="leftMargin">0</property>
+        <property name="topMargin">0</property>
+        <property name="rightMargin">0</property>
+        <property name="bottomMargin">0</property>
+         <item>
+          <widget class="QWidget" name="rulesTopBar" native="true">
+           <layout class="QHBoxLayout" name="rulesTopBarLayout">
+            <property name="leftMargin">4</property>
+            <property name="topMargin">4</property>
+            <property name="rightMargin">4</property>
+            <property name="bottomMargin">4</property>
+            <item>
+             <spacer name="rulesTopBarLeftSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="rulesTitle">
+              <property name="text">
+               <string>Firewall Rules</string>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="rulesTopBarRightSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        <item>
+         <widget class="QWidget" name="searchBar" native="true">
+          <layout class="QHBoxLayout" name="searchBarLayout">
+           <property name="leftMargin">4</property>
+           <property name="topMargin">2</property>
+           <property name="rightMargin">4</property>
+           <property name="bottomMargin">2</property>
+           <item>
+            <widget class="QLabel" name="searchLabel">
+             <property name="text">
+              <string>Search:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="searchEdit">
+             <property name="placeholderText">
+              <string>Filter rules by name, app, port...</string>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableView" name="tableView">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="rulesBottomBar" native="true">
+          <layout class="QHBoxLayout" name="rulesBottomBarLayout">
+           <property name="leftMargin">4</property>
+           <property name="topMargin">2</property>
+           <property name="rightMargin">4</property>
+           <property name="bottomMargin">2</property>
+           <item>
+            <widget class="QLabel" name="statusLabel"/>
+           </item>
+           <item>
+            <spacer name="rulesBottomBarSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="backButton">
+             <property name="text">
+              <string>&lt;&lt; Dashboard</string>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="appsPage"/>
+      <widget class="QWidget" name="connectionsPage"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <addaction name="actionRefresh"/>
+   <addaction name="separator"/>
+   <addaction name="actionAddRule"/>
+   <addaction name="actionEditRule"/>
+   <addaction name="actionDeleteRule"/>
+   <addaction name="actionToggleEnabled"/>
+   <addaction name="separator"/>
+   <addaction name="actionShowRiskyOnly"/>
+   <addaction name="separator"/>
+   <addaction name="actionAskAi"/>
+  </widget>
+  <action name="actionRefresh">
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="actionAddRule">
+   <property name="text">
+    <string>Add Rule</string>
+   </property>
+  </action>
+  <action name="actionEditRule">
+   <property name="text">
+    <string>Edit Rule</string>
+   </property>
+  </action>
+  <action name="actionDeleteRule">
+   <property name="text">
+    <string>Delete Rule</string>
+   </property>
+  </action>
+  <action name="actionToggleEnabled">
+   <property name="text">
+    <string>Toggle Enabled</string>
+   </property>
+  </action>
+  <action name="actionShowRiskyOnly">
+   <property name="text">
+    <string>Show Risky Only</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   </action>
+   <action name="actionAskAi">
+    <property name="text">
+     <string>Ask AI</string>
+    </property>
+   </action>
+  </widget>
+ <resources/>
+ <connections/>
+</ui>

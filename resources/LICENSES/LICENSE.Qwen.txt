@@ -1,0 +1,8 @@
+Vigil Fluminis optionally supports the Qwen2.5 language model,
+which is licensed under the Apache License, Version 2.0.
+
+Qwen is Copyright (c) Alibaba Group.
+Source code is available at:
+  https://github.com/QwenLM/Qwen2.5
+
+A copy of the Apache 2.0 license is provided in LICENSES/Apache-2.0.txt.

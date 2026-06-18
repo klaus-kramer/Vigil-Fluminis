@@ -1,0 +1,674 @@
+{
+    "safe":  [
+                 {
+                     "label":  "Google DNS",
+                     "cidr":  "8.8.8.0/24"
+                 },
+                 {
+                     "label":  "Google DNS",
+                     "cidr":  "8.8.4.0/24"
+                 },
+                 {
+                     "label":  "Cloudflare DNS",
+                     "cidr":  "1.1.1.0/24"
+                 },
+                 {
+                     "label":  "Cloudflare DNS",
+                     "cidr":  "1.0.0.0/24"
+                 },
+                 {
+                     "label":  "Quad9 DNS",
+                     "cidr":  "9.9.9.0/24"
+                 },
+                 {
+                     "label":  "Quad9 DNS",
+                     "cidr":  "149.112.112.0/24"
+                 },
+                 {
+                     "label":  "OpenDNS",
+                     "cidr":  "208.67.222.0/24"
+                 },
+                 {
+                     "label":  "OpenDNS",
+                     "cidr":  "208.67.220.0/24"
+                 },
+                 {
+                     "label":  "Cisco Umbrella DNS",
+                     "cidr":  "64.6.64.0/18"
+                 },
+                 {
+                     "label":  "ISC F Root",
+                     "cidr":  "199.7.48.0/21"
+                 },
+                 {
+                     "label":  "ISC F Root",
+                     "cidr":  "192.5.5.0/24"
+                 },
+                 {
+                     "label":  "ISC K Root",
+                     "cidr":  "192.112.36.0/24"
+                 },
+                 {
+                     "label":  "ISC L Root",
+                     "cidr":  "192.58.128.0/24"
+                 },
+                 {
+                     "label":  "M Root",
+                     "cidr":  "202.12.27.0/24"
+                 },
+                 {
+                     "label":  "RIPE K Root",
+                     "cidr":  "193.0.14.0/24"
+                 },
+                 {
+                     "label":  "I Root",
+                     "cidr":  "198.97.190.0/24"
+                 },
+                 {
+                     "label":  "E Root",
+                     "cidr":  "192.203.230.0/24"
+                 },
+                 {
+                     "label":  "G Root",
+                     "cidr":  "192.41.162.0/24"
+                 },
+                 {
+                     "label":  "L Root",
+                     "cidr":  "199.7.83.0/24"
+                 },
+                 {
+                     "label":  "Azure",
+                     "cidr":  "13.64.0.0/11"
+                 },
+                 {
+                     "label":  "Azure",
+                     "cidr":  "13.96.0.0/13"
+                 },
+                 {
+                     "label":  "Azure CDN",
+                     "cidr":  "13.104.0.0/14"
+                 },
+                 {
+                     "label":  "Azure / Microsoft",
+                     "cidr":  "20.0.0.0/8"
+                 },
+                 {
+                     "label":  "Azure",
+                     "cidr":  "40.74.0.0/15"
+                 },
+                 {
+                     "label":  "Azure",
+                     "cidr":  "40.112.0.0/13"
+                 },
+                 {
+                     "label":  "Azure",
+                     "cidr":  "40.120.0.0/14"
+                 },
+                 {
+                     "label":  "Office 365",
+                     "cidr":  "52.96.0.0/14"
+                 },
+                 {
+                     "label":  "Office 365",
+                     "cidr":  "52.112.0.0/14"
+                 },
+                 {
+                     "label":  "Office 365",
+                     "cidr":  "52.120.0.0/14"
+                 },
+                 {
+                     "label":  "Office 365",
+                     "cidr":  "52.238.0.0/15"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "173.245.48.0/20"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "103.21.244.0/22"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "103.22.200.0/22"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "103.31.4.0/22"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "131.0.72.0/22"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "141.101.64.0/18"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "162.158.0.0/15"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "172.64.0.0/13"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "188.114.96.0/20"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "190.93.240.0/20"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "197.234.240.0/22"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "198.41.128.0/17"
+                 },
+                 {
+                     "label":  "Cloudflare CDN",
+                     "cidr":  "104.16.0.0/12"
+                 },
+                 {
+                     "label":  "Googlebot",
+                     "cidr":  "66.249.64.0/19"
+                 },
+                 {
+                     "label":  "Google",
+                     "cidr":  "64.233.160.0/19"
+                 },
+                 {
+                     "label":  "Google",
+                     "cidr":  "216.58.192.0/19"
+                 },
+                 {
+                     "label":  "Google Cloud",
+                     "cidr":  "35.190.247.0/24"
+                 },
+                 {
+                     "label":  "Google Cloud",
+                     "cidr":  "35.191.0.0/16"
+                 },
+                 {
+                     "label":  "Google Cloud",
+                     "cidr":  "34.64.0.0/10"
+                 },
+                 {
+                     "label":  "AWS",
+                     "cidr":  "52.0.0.0/10"
+                 },
+                 {
+                     "label":  "AWS CloudFront",
+                     "cidr":  "54.192.0.0/10"
+                 },
+                 {
+                     "label":  "AWS CloudFront",
+                     "cidr":  "204.246.164.0/22"
+                 },
+                 {
+                     "label":  "AWS CloudFront",
+                     "cidr":  "205.251.249.0/24"
+                 }
+             ],
+    "suspicious":  [
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "23.235.128.0/19"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "45.42.80.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "45.74.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "45.140.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "57.14.0.0/15"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "64.15.0.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "64.250.144.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "69.165.0.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "71.180.0.0/17"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "80.208.192.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "83.175.0.0/18"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "89.18.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "91.92.240.0/22"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "91.188.254.0/24"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "91.200.164.0/22"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "91.220.163.0/24"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "91.229.52.0/22"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "91.233.0.0/23"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "92.255.57.0/24"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "95.85.238.0/24"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "104.244.56.0/21"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "107.182.240.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "134.122.128.0/17"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "138.59.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "147.45.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "149.57.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "162.71.0.0/19"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "167.94.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "168.80.0.0/15"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "176.126.192.0/23"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "185.14.192.0/24"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "185.56.83.0/24"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "185.110.0.0/22"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "185.127.44.0/22"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "185.212.240.0/22"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "192.35.52.0/23"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "193.169.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "196.16.0.0/14"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "198.20.16.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "198.96.224.0/20"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "199.33.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "199.127.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "204.155.80.0/21"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "205.210.0.0/16"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "206.83.128.0/21"
+                       },
+                       {
+                           "label":  "Known Malicious (Spamhaus)",
+                           "cidr":  "206.221.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "45.55.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "68.183.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "95.85.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "104.131.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "104.236.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "104.248.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "107.170.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "128.199.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "134.122.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "134.209.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "137.184.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "138.68.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "138.197.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "142.93.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "143.110.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "143.198.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "146.190.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "147.182.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "157.230.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "157.245.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "159.65.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "159.89.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "159.203.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "159.223.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "161.35.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "162.243.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "164.90.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "165.22.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "165.227.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "167.71.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "167.99.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "167.172.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "174.138.0.0/17"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "178.62.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "178.128.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "188.166.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "192.241.128.0/17"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "198.199.64.0/18"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "206.189.0.0/16"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "207.154.192.0/18"
+                       },
+                       {
+                           "label":  "DigitalOcean (C2 risk)",
+                           "cidr":  "209.38.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "5.9.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "46.4.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "49.12.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "49.13.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "65.21.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "65.108.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "78.46.0.0/15"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "85.10.192.0/18"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "88.198.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "94.130.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "95.216.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "116.202.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "136.243.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "138.201.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "142.132.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "144.76.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "148.251.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "157.90.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "159.69.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "162.55.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "167.235.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "168.119.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "176.9.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "188.40.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "195.201.0.0/16"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "213.133.96.0/19"
+                       },
+                       {
+                           "label":  "Hetzner (C2 risk)",
+                           "cidr":  "213.239.192.0/18"
+                       }
+                   ]
+}

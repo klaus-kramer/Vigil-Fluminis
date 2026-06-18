@@ -1,0 +1,92 @@
+[
+  {
+    "port": 21,
+    "service": "FTP",
+    "risk": "Unencrypted file transfer – credentials and data in plaintext.",
+    "recommendation": "Replace FTP with SFTP (port 22) or FTPS."
+  },
+  {
+    "port": 23,
+    "service": "Telnet",
+    "risk": "Plaintext remote access – transmits credentials in clear text.",
+    "recommendation": "Telnet is obsolete. Use SSH (port 22) instead."
+  },
+  {
+    "port": 25,
+    "service": "SMTP",
+    "risk": "Unencrypted email – potential spam relay and phishing vector.",
+    "recommendation": "Only open if you run a mail server. Otherwise block."
+  },
+  {
+    "port": 135,
+    "service": "RPC",
+    "risk": "Windows RPC – frequently targeted for remote exploitation.",
+    "recommendation": "Do not expose to the internet. Only needed in Windows domains on LAN."
+  },
+  {
+    "port": 137,
+    "service": "NetBIOS",
+    "risk": "NetBIOS Name Service – legacy protocol, common attack surface.",
+    "recommendation": "Block on internet-facing interfaces. Legacy protocol – disable if possible."
+  },
+  {
+    "port": 138,
+    "service": "NetBIOS",
+    "risk": "NetBIOS Datagram Service – legacy protocol.",
+    "recommendation": "Block on internet-facing interfaces. Legacy protocol – disable if possible."
+  },
+  {
+    "port": 139,
+    "service": "NetBIOS",
+    "risk": "NetBIOS Session Service – legacy protocol, SMB vector.",
+    "recommendation": "Block on internet-facing interfaces. Use SMB over port 445 only."
+  },
+  {
+    "port": 445,
+    "service": "SMB",
+    "risk": "Windows file sharing – major ransomware vector (EternalBlue).",
+    "recommendation": "Only open in trusted local networks. Never expose SMB to the internet."
+  },
+  {
+    "port": 1433,
+    "service": "MSSQL",
+    "risk": "Microsoft SQL Server – database targeted by brute force.",
+    "recommendation": "Restrict to trusted client IPs. Use VPN for remote access."
+  },
+  {
+    "port": 1434,
+    "service": "MSSQL",
+    "risk": "Microsoft SQL Server monitor – scanning target.",
+    "recommendation": "Do not expose publicly. Restrict to trusted clients."
+  },
+  {
+    "port": 3306,
+    "service": "MySQL",
+    "risk": "MySQL database – common brute-force target.",
+    "recommendation": "Do not make MySQL publicly accessible. Use localhost or VPN."
+  },
+  {
+    "port": 3389,
+    "service": "RDP",
+    "risk": "Remote Desktop – most common brute-force target.",
+    "recommendation": "Only use RDP via VPN, or restrict to known IP addresses."
+  },
+  {
+    "port": 5900,
+    "service": "VNC",
+    "risk": "Virtual Network Computing – outdated encryption.",
+    "recommendation": "Replace VNC with RDP or use an SSH tunnel."
+  },
+  {
+    "port": 6379,
+    "service": "Redis",
+    "risk": "Redis – often exploited when exposed without authentication.",
+    "recommendation": "Redis must not be exposed to the internet. Enable authentication."
+  },
+  {
+    "port": 27017,
+    "service": "MongoDB",
+    "risk": "MongoDB – frequently targeted when exposed to the internet.",
+    "recommendation": "Do not expose MongoDB publicly. Enable authentication and IP whitelisting."
+  }
+]

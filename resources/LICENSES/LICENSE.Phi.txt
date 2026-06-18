@@ -1,0 +1,8 @@
+Vigil Fluminis optionally supports the Phi-3-mini language model,
+which is licensed under the MIT License.
+
+Phi-3-mini is Copyright (c) Microsoft Corporation.
+Source code is available at:
+  https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf
+
+A copy of the MIT license is provided in LICENSES/MIT.txt.
