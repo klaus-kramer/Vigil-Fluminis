@@ -317,10 +317,13 @@ IpReputationResult IpReputationDb::checkIp(const QString &ip)
         return { IpReputationResult::Unknown, {} };
 
     for (const auto &e : s_entries) {
-        if ((raw & e.mask) == e.baseAddr) {
-            return { e.isSafe ? IpReputationResult::Safe : IpReputationResult::Suspicious,
-                     e.label };
-        }
+        if (!e.isSafe && (raw & e.mask) == e.baseAddr)
+            return { IpReputationResult::Suspicious, e.label };
+    }
+
+    for (const auto &e : s_entries) {
+        if (e.isSafe && (raw & e.mask) == e.baseAddr)
+            return { IpReputationResult::Safe, e.label };
     }
 
     return { IpReputationResult::Unknown, {} };

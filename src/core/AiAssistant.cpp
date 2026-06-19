@@ -67,6 +67,7 @@ QString AiAssistant::loadModel()
     llama_model *model = llama_load_model_from_file(
         s_config.modelPath.toUtf8().constData(), model_params);
     if (!model) {
+        llama_backend_free();
         s_lastError = QStringLiteral("Failed to load model");
         return s_lastError;
     }
@@ -79,6 +80,7 @@ QString AiAssistant::loadModel()
     llama_context *ctx = llama_new_context_with_model(model, ctx_params);
     if (!ctx) {
         llama_free_model(model);
+        llama_backend_free();
         s_lastError = QStringLiteral("Failed to create context");
         return s_lastError;
     }
