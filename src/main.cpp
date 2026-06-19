@@ -22,15 +22,18 @@ static FirewallRule loadRuleFromFile(const QString &path);
 
 int main(int argc, char *argv[])
 {
+    {
+        QStringList args;
+        for (int i = 0; i < argc; ++i)
+            args << QString::fromLocal8Bit(argv[i]);
+        if (args.contains(QStringLiteral("--elevate")))
+            return runElevated(argc, argv);
+    }
+
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("Vigil Fluminis - Guardian of the river"));
     app.setApplicationVersion(QStringLiteral("0.4.0"));
     app.setWindowIcon(QIcon(QStringLiteral("Vigil Fluminis.ico")));
-
-    QStringList args = app.arguments();
-
-    if (args.contains(QStringLiteral("--elevate")))
-        return runElevated(argc, argv);
 
     auto manager = std::make_unique<FirewallManager>();
     if (!manager->initialize()) {
