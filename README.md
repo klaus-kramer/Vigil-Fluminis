@@ -3,7 +3,7 @@
 Windows Firewall Analysis. A check against various criteria to generate a "suspicious" score that can assist the user during evaluation.    
 Built with C++/llama.cpp/Qt. No installer, just unzip the Release and run.
 
-## Features v0.4.0:
+## Features v0.5.0:
 - Firewall rule analysis with risk scoring    
 - Active connection monitoring with IP reputation checks    
 - App signature verification
