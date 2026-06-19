@@ -208,6 +208,11 @@ void ConnectionsWidget::refresh()
 
         m_table->setItem(i, 8, new QTableWidgetItem(conn.state));
 
+        bool suspiciousPort = (conn.remotePort > 0)
+            && ThreatDatabase::isPortDangerous(conn.remotePort);
+        if (suspiciousPort)
+            ++suspiciousCount;
+
         if (!conn.processPath.isEmpty()) {
             auto repRes = KnownMalwareDb::checkApp(conn.processPath);
             auto repItem = new QTableWidgetItem;
@@ -252,20 +257,15 @@ void ConnectionsWidget::refresh()
             assessed.repResult = repRes;
             assessed.dirInfo = dirInfo;
             assessed.ipRepResult = ipRepRes;
-            assessed.suspiciousPort = (conn.remotePort > 0)
-                && ThreatDatabase::isPortDangerous(conn.remotePort);
-
-            if (assessed.suspiciousPort)
-                ++suspiciousCount;
+            assessed.suspiciousPort = suspiciousPort;
             updateSuspiciousRow(i, assessed);
 
         } else {
             auto unknownItem = new QTableWidgetItem(QStringLiteral("N/A"));
             unknownItem->setForeground(QColor(0x99, 0x99, 0x99));
-            m_table->setItem(i, 7, unknownItem->clone());
-            m_table->setItem(i, 8, unknownItem);
             m_table->setItem(i, 9, unknownItem->clone());
             m_table->setItem(i, 10, unknownItem->clone());
+            delete unknownItem;
 
             auto suspItem = new QTableWidgetItem(QStringLiteral("-"));
             suspItem->setTextAlignment(Qt::AlignCenter);
