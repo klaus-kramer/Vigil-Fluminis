@@ -10,7 +10,6 @@ Built with C++/llama.cpp/Qt. No installer, just unzip the Release and run.
 - optional: locally running AI assistant for evaluation of the rule/app/connection    
 - simple Trojan detection test – detects data exchange during user input (admin req.)    
 
-![Vigil Fluminis](Vigil_Fluminis_256.png)
 
 # Usage:    
 Main Window:    
