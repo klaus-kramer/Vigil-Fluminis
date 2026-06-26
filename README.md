@@ -57,8 +57,7 @@ and put it for example in the models-directory. (btw:qwen2.5-7b-q4_k_m-imat woul
 - in Vigil Fluminis open options->AI settings->Enable AI assistant->Check    
 - select an entry in rules/apps/connections and klick "Ask AI" in topmenu    
 - the AI runs locally on your computer without connection to internet    
-- A Windows Firewall expert is now at your disposal    
-(also have a look to new tool https://github.com/klaus-kramer/agent-minimal )   
+- A Windows Firewall expert is now at your disposal       
 
 # build:    
 use the build-batches    
