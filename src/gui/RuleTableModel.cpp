@@ -74,6 +74,8 @@ QVariant RuleTableModel::data(const QModelIndex &index, int role) const
     if (role == Qt::ForegroundRole && index.column() == ColIpRep) {
         if (risk.ipRepText == QStringLiteral("Suspicious"))
             return QColor(Qt::red);
+        if (risk.ipRepText == QStringLiteral("Weak"))
+            return QColor(0xCC, 0x88, 0x00);
         if (risk.ipRepText == QStringLiteral("Safe"))
             return QColor(0x2E, 0x7D, 0x32);
         return QColor(0x99, 0x99, 0x99);

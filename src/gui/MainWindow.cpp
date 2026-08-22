@@ -46,6 +46,7 @@ MainWindow::MainWindow(std::unique_ptr<FirewallManager> manager)
     if (m_manager)
         m_firewall = m_manager->firewall();
 
+    RiskAnalyzer::loadSettings();
     setupUi();
 }
 
@@ -130,6 +131,11 @@ void MainWindow::setupUi()
     ovLayout->addWidget(m_overview);
 
     m_apps = new AppsWidget(m_firewall);
+    {
+        QSettings s(QStringLiteral("Vigil Fluminis"), QStringLiteral("Vigil Fluminis"));
+        m_apps->setMicrosoftAppsUnsuspicious(
+            s.value(QStringLiteral("scoring/msAppsUnsuspicious"), true).toBool());
+    }
     connect(m_apps, &AppsWidget::showRulesForApp, this, &MainWindow::showRulesForApp);
     connect(m_apps, &AppsWidget::backToOverview, this, &MainWindow::showOverview);
     connect(m_apps, &AppsWidget::topSuspiciousAppsUpdated, this, [this](const QStringList &names, const QList<int> &scores) {
@@ -268,8 +274,17 @@ void MainWindow::onOverviewRefresh()
 
 void MainWindow::onOptionsChanged()
 {
+    RiskAnalyzer::loadSettings();
     applyRefreshSettings();
     loadAiModel();
+    {
+        QSettings s(QStringLiteral("Vigil Fluminis"), QStringLiteral("Vigil Fluminis"));
+        m_apps->setMicrosoftAppsUnsuspicious(
+            s.value(QStringLiteral("scoring/msAppsUnsuspicious"), true).toBool());
+    }
+    m_overview->refresh();
+    loadRules();
+    m_apps->refresh();
 }
 
 void MainWindow::onAutoRefresh()

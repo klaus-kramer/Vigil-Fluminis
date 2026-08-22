@@ -4,6 +4,7 @@
 #include "core/AiAssistant.h"
 
 #include <QCheckBox>
+#include <QComboBox>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QLabel>
@@ -90,6 +91,19 @@ void OptionsDialog::setupGeneralTab(QWidget *tab)
         QStringLiteral("Warn before allowing known dangerous ports"));
     m_warnPortsCheck->setChecked(true);
     form->addRow(m_warnPortsCheck);
+
+    m_msAppsCheck = new QCheckBox(
+        QStringLiteral("Microsoft apps unsuspicious"));
+    m_msAppsCheck->setChecked(true);
+    m_msAppsCheck->setToolTip(
+        QStringLiteral("Skip Microsoft-signed applications in the suspicious-apps rating"));
+    form->addRow(m_msAppsCheck);
+
+    m_sensitivityCombo = new QComboBox;
+    m_sensitivityCombo->addItem(QStringLiteral("Relaxed - fewer warnings"));
+    m_sensitivityCombo->addItem(QStringLiteral("Balanced - default"));
+    m_sensitivityCombo->addItem(QStringLiteral("Strict - more warnings"));
+    form->addRow(QStringLiteral("Detection sensitivity:"), m_sensitivityCombo);
 
     form->addRow(new QLabel);
 }
@@ -188,6 +202,14 @@ void OptionsDialog::loadSettings()
         s.value(QStringLiteral("autorefresh/interval"), 30).toInt());
     m_warnPortsCheck->setChecked(
         s.value(QStringLiteral("warnports/enabled"), true).toBool());
+    m_msAppsCheck->setChecked(
+        s.value(QStringLiteral("scoring/msAppsUnsuspicious"), true).toBool());
+
+    int sens = s.value(QStringLiteral("scoring/sensitivity"),
+        static_cast<int>(RiskAnalyzer::Sensitivity::Balanced)).toInt();
+    if (sens < 0 || sens > m_sensitivityCombo->count() - 1)
+        sens = static_cast<int>(RiskAnalyzer::Sensitivity::Balanced);
+    m_sensitivityCombo->setCurrentIndex(sens);
 
     m_aiEnabledCheck->setChecked(
         s.value(QStringLiteral("ai/enabled"), false).toBool());
@@ -244,6 +266,8 @@ void OptionsDialog::saveSettings()
     s.setValue(QStringLiteral("autorefresh/enabled"), m_autoRefreshCheck->isChecked());
     s.setValue(QStringLiteral("autorefresh/interval"), m_intervalSpin->value());
     s.setValue(QStringLiteral("warnports/enabled"), m_warnPortsCheck->isChecked());
+    s.setValue(QStringLiteral("scoring/msAppsUnsuspicious"), m_msAppsCheck->isChecked());
+    s.setValue(QStringLiteral("scoring/sensitivity"), m_sensitivityCombo->currentIndex());
 
     s.setValue(QStringLiteral("ai/enabled"), m_aiEnabledCheck->isChecked());
     s.setValue(QStringLiteral("ai/modelPath"), m_modelPathEdit->text());
@@ -299,4 +323,27 @@ bool OptionsDialog::warnDangerousPorts() const
 void OptionsDialog::setWarnDangerousPorts(bool enabled)
 {
     m_warnPortsCheck->setChecked(enabled);
+}
+
+bool OptionsDialog::microsoftAppsUnsuspicious() const
+{
+    return m_msAppsCheck->isChecked();
+}
+
+void OptionsDialog::setMicrosoftAppsUnsuspicious(bool enabled)
+{
+    m_msAppsCheck->setChecked(enabled);
+}
+
+RiskAnalyzer::Sensitivity OptionsDialog::riskSensitivity() const
+{
+    return static_cast<RiskAnalyzer::Sensitivity>(m_sensitivityCombo->currentIndex());
+}
+
+void OptionsDialog::setRiskSensitivity(RiskAnalyzer::Sensitivity s)
+{
+    int idx = static_cast<int>(s);
+    if (idx < 0 || idx >= m_sensitivityCombo->count())
+        idx = static_cast<int>(RiskAnalyzer::Sensitivity::Balanced);
+    m_sensitivityCombo->setCurrentIndex(idx);
 }

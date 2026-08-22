@@ -26,6 +26,7 @@ public:
 
     void refresh();
     void updateAiButtonState();
+    void setMicrosoftAppsUnsuspicious(bool enabled);
 
 signals:
     void showRulesForApp(const QString &appPath);
@@ -62,7 +63,8 @@ private:
     QString suspiciousTooltip(const AppInfo &app) const;
     void updateSuspiciousRow(int row, const AppInfo &app);
     void computeTopSuspiciousApps();
-    static int suspiciousScore(const AppInfo &app);
+    int suspiciousScore(const AppInfo &app) const;
+    bool isMicrosoftSigned(const AppInfo &app) const;
 
     QVector<AppInfo> buildAppList(const QVector<FirewallRule> &rules);
 
@@ -75,4 +77,6 @@ private:
     QHash<QString, MalwareResult> m_repCache;
     QHash<QString, SignatureResult> m_sigCache;
     QHash<QString, FileInfoResult> m_fileInfoCache;
+    bool m_columnsInitialized = false;
+    bool m_msAppsUnsuspicious = true;
 };

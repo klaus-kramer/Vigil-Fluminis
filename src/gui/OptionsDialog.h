@@ -3,8 +3,10 @@
 #pragma once
 
 #include <QDialog>
+#include "core/RiskAnalyzer.h"
 
 class QCheckBox;
+class QComboBox;
 class QSpinBox;
 class QDoubleSpinBox;
 class QLineEdit;
@@ -23,11 +25,16 @@ public:
     int autoRefreshInterval() const;
     bool startWithWindows() const;
     bool warnDangerousPorts() const;
+    bool microsoftAppsUnsuspicious() const;
+
+    RiskAnalyzer::Sensitivity riskSensitivity() const;
 
     void setAutoRefreshEnabled(bool enabled);
     void setAutoRefreshInterval(int seconds);
     void setStartWithWindows(bool enabled);
     void setWarnDangerousPorts(bool enabled);
+    void setMicrosoftAppsUnsuspicious(bool enabled);
+    void setRiskSensitivity(RiskAnalyzer::Sensitivity s);
 
 private:
     void setupUi();
@@ -41,6 +48,8 @@ private:
     QCheckBox *m_autoRefreshCheck = nullptr;
     QSpinBox *m_intervalSpin = nullptr;
     QCheckBox *m_warnPortsCheck = nullptr;
+    QCheckBox *m_msAppsCheck = nullptr;
+    QComboBox *m_sensitivityCombo = nullptr;
 
     QCheckBox *m_aiEnabledCheck = nullptr;
     QLineEdit *m_modelPathEdit = nullptr;

@@ -122,19 +122,8 @@ void AppsWidget::setupUi()
         QStringLiteral("Suspicious"),
     });
     m_table->horizontalHeader()->setStretchLastSection(false);
-    m_table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    m_table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(7, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(8, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(9, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(10, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(11, QHeaderView::ResizeToContents);
-    m_table->horizontalHeader()->setSectionResizeMode(12, QHeaderView::ResizeToContents);
+    m_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+    m_table->horizontalHeader()->setMinimumSectionSize(44);
     m_table->verticalHeader()->hide();
     m_table->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_table->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -175,7 +164,7 @@ void AppsWidget::refresh()
     auto rules = m_firewall->rules();
     auto apps = buildAppList(rules);
 
-    std::sort(apps.begin(), apps.end(), [](const AppInfo &a, const AppInfo &b) {
+    std::sort(apps.begin(), apps.end(), [this](const AppInfo &a, const AppInfo &b) {
         return suspiciousScore(a) > suspiciousScore(b);
     });
 
@@ -245,6 +234,20 @@ void AppsWidget::refresh()
 
     m_table->setUpdatesEnabled(true);
     m_table->setSortingEnabled(true);
+
+    if (!m_columnsInitialized && m_table->rowCount() > 0) {
+        m_table->resizeColumnsToContents();
+        m_table->setColumnWidth(0, qBound(160, m_table->columnWidth(0), 200));
+        for (int c = 1; c < m_table->columnCount(); ++c) {
+            if (m_table->columnWidth(c) > 130)
+                m_table->setColumnWidth(c, 130);
+        }
+        const int narrowCols[] = {1, 2, 3, 4, 6};
+        for (int c : narrowCols)
+            m_table->setColumnWidth(c, qMax(40, m_table->columnWidth(c) / 2));
+        m_columnsInitialized = true;
+    }
+
     computeTopSuspiciousApps();
 }
 
@@ -269,7 +272,9 @@ QVector<AppsWidget::AppInfo> AppsWidget::buildAppList(const QVector<FirewallRule
         else
             ++info.block;
 
-        QString perm = RiskAnalyzer::permissiveRuleInfo(r);
+        QString perm = r.direction == FirewallRule::Direction::Inbound
+            ? RiskAnalyzer::permissiveRuleInfo(r)
+            : QString();
         if (!perm.isEmpty()) {
             if (info.permissiveInfo.isEmpty())
                 info.permissiveInfo = perm;
@@ -658,31 +663,69 @@ void AppsWidget::onTableContextMenu(const QPoint &pos)
     menu.exec(m_table->viewport()->mapToGlobal(pos));
 }
 
-int AppsWidget::suspiciousScore(const AppInfo &app)
+void AppsWidget::setMicrosoftAppsUnsuspicious(bool enabled)
 {
+    m_msAppsUnsuspicious = enabled;
+}
+
+bool AppsWidget::isMicrosoftSigned(const AppInfo &app) const
+{
+    if (!m_msAppsUnsuspicious)
+        return false;
+    if (app.sigResult.isTrusted()
+        && app.sigResult.publisher.contains(QStringLiteral("Microsoft"),
+                                            Qt::CaseInsensitive))
+        return true;
+    return app.fileInfo.hasVersionInfo
+        && app.fileInfo.companyName.contains(QStringLiteral("Microsoft"),
+                                             Qt::CaseInsensitive);
+}
+
+int AppsWidget::suspiciousScore(const AppInfo &app) const
+{
+    if (isMicrosoftSigned(app))
+        return 0;
+
     int score = 0;
+
+    const bool trusted = app.sigResult.isTrusted();
+
     if (app.repResult.status != MalwareResult::Clean && app.repResult.status != MalwareResult::Unknown)
         ++score;
-    if (app.sigResult.status != SignatureResult::Verified)
+
+    switch (app.sigResult.status) {
+    case SignatureResult::Unsigned:
+    case SignatureResult::SelfSigned:
+    case SignatureResult::Expired:
+    case SignatureResult::Revoked:
+    case SignatureResult::UntrustedRoot:
         ++score;
-    if (!app.dirInfo.isEmpty())
+        break;
+    default:
+        break;
+    }
+
+    if (!trusted && !app.dirInfo.isEmpty())
         ++score;
+
     if (!app.permissiveInfo.isEmpty())
         ++score;
+
     if (!app.fileInfo.hasVersionInfo || app.fileInfo.companyName.isEmpty())
         ++score;
+
     if (app.fileInfo.hasVersionInfo && !app.fileInfo.originalFilename.isEmpty()) {
         QString fn = QFileInfo(app.path).fileName();
         if (fn.compare(app.fileInfo.originalFilename, Qt::CaseInsensitive) != 0)
             ++score;
     }
-    if (app.sigResult.isTrusted() && !FileAnalyzer::isKnownPublisher(app.sigResult.publisher))
-        ++score;
+
     if (app.fileInfo.hasVersionInfo && app.fileInfo.lastModified.isValid()) {
         qint64 days = app.fileInfo.lastModified.daysTo(QDateTime::currentDateTime());
         if (days < 30 || days > 365 * 4)
             ++score;
     }
+
     return score;
 }
 
@@ -710,15 +753,32 @@ void AppsWidget::updateSuspiciousRow(int row, const AppInfo &app)
 
 QString AppsWidget::suspiciousTooltip(const AppInfo &app) const
 {
+    if (isMicrosoftSigned(app))
+        return QStringLiteral("Digitally signed by %1 - treated as trusted system application")
+            .arg(app.sigResult.publisher);
+
     QStringList factors;
     if (app.repResult.status != MalwareResult::Clean && app.repResult.status != MalwareResult::Unknown)
         factors.append(QStringLiteral("+1 Reputation (%1)").arg(repStatusText(app.repResult.status)));
-    if (app.sigResult.status != SignatureResult::Verified)
+
+    switch (app.sigResult.status) {
+    case SignatureResult::Unsigned:
+    case SignatureResult::SelfSigned:
+    case SignatureResult::Expired:
+    case SignatureResult::Revoked:
+    case SignatureResult::UntrustedRoot:
         factors.append(QStringLiteral("+1 Signature (%1)").arg(app.sigResult.statusText()));
-    if (!app.dirInfo.isEmpty())
+        break;
+    default:
+        break;
+    }
+
+    if (!app.sigResult.isTrusted() && !app.dirInfo.isEmpty())
         factors.append(QStringLiteral("+1 Directory (%1)").arg(app.dirInfo));
+
     if (!app.permissiveInfo.isEmpty())
-        factors.append(QStringLiteral("+1 Permissive (%1)").arg(app.permissiveInfo));
+        factors.append(QStringLiteral("+1 Permissive inbound rule (%1)").arg(app.permissiveInfo));
+
     if (!app.fileInfo.hasVersionInfo || app.fileInfo.companyName.isEmpty()) {
         if (!app.fileInfo.hasVersionInfo)
             factors.append(QStringLiteral("+1 No Company (no VERSIONINFO)"));
@@ -730,16 +790,17 @@ QString AppsWidget::suspiciousTooltip(const AppInfo &app) const
         if (fn.compare(app.fileInfo.originalFilename, Qt::CaseInsensitive) != 0)
             factors.append(QStringLiteral("+1 Orig. File differs (%1)").arg(app.fileInfo.originalFilename));
     }
-    if (app.sigResult.isTrusted() && !FileAnalyzer::isKnownPublisher(app.sigResult.publisher))
-        factors.append(QStringLiteral("+1 Unknown Publisher (%1)").arg(app.sigResult.publisher));
 
     if (app.fileInfo.hasVersionInfo && app.fileInfo.lastModified.isValid()) {
         qint64 days = app.fileInfo.lastModified.daysTo(QDateTime::currentDateTime());
         if (days < 30)
             factors.append(QStringLiteral("+1 File age (%1 days old, recent)").arg(days));
-        else if (days > 365 * 3)
+        else if (days > 365 * 4)
             factors.append(QStringLiteral("+1 File age (%1 days old, > 4 years)").arg(days));
     }
+
+    if (app.sigResult.status == SignatureResult::NotChecked)
+        factors.append(QStringLiteral("Info: signature not checked yet (use 'Check Signatures')"));
 
     return factors.isEmpty()
         ? QStringLiteral("No suspicious indicators")
