@@ -107,6 +107,32 @@ bool ThreatDatabase::isRiskyRule(const FirewallRule &rule)
     return false;
 }
 
+int ThreatDatabase::riskyPortPoints(const FirewallRule &rule)
+{
+    if (!isRiskyRule(rule))
+        return 0;
+
+    auto containsDangerous = [](const QVector<int> &ports) {
+        for (int p : ports) {
+            if (isPortDangerous(p))
+                return true;
+        }
+        return false;
+    };
+
+    if (rule.direction == FirewallRule::Direction::Inbound) {
+        if (containsDangerous(rule.localPorts))
+            return 3;
+        if (containsDangerous(rule.remotePorts))
+            return 1;
+        return 0;
+    }
+
+    if (containsDangerous(rule.remotePorts))
+        return 1;
+    return 0;
+}
+
 bool ThreatDatabase::isPortDangerous(int port)
 {
     ensureLoaded();

@@ -17,6 +17,7 @@ class ThreatDatabase
 {
 public:
     static bool isRiskyRule(const FirewallRule &rule);
+    static int riskyPortPoints(const FirewallRule &rule);
     static bool isPortDangerous(int port);
     static QVector<QString> riskDescriptions(const FirewallRule &rule);
 

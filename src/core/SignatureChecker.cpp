@@ -4,6 +4,8 @@
 
 #include <QFileInfo>
 
+#include <vector>
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <wintrust.h>
@@ -152,6 +154,91 @@ static QString getPublisherName(const QString &filePath)
     return publisher;
 }
 
+static bool verifyWithCatalogs(const QString &filePath, QString *publisher)
+{
+    const std::wstring widePath = filePath.toStdWString();
+
+    HANDLE file = CreateFileW(widePath.c_str(), GENERIC_READ, FILE_SHARE_READ,
+                              nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file == INVALID_HANDLE_VALUE)
+        return false;
+
+    bool verified = false;
+
+    GUID adminAction = DRIVER_ACTION_VERIFY;
+    HCATADMIN catAdmin = nullptr;
+    if (CryptCATAdminAcquireContext(&catAdmin, &adminAction, 0)) {
+        DWORD hashSize = 0;
+        if (CryptCATAdminCalcHashFromFileHandle(file, &hashSize, nullptr, 0)
+            && hashSize > 0) {
+            std::vector<BYTE> hash(hashSize);
+            if (CryptCATAdminCalcHashFromFileHandle(file, &hashSize, hash.data(), 0)) {
+                HCATINFO prev = nullptr;
+                for (;;) {
+                    HCATINFO cur = CryptCATAdminEnumCatalogFromHash(
+                        catAdmin, hash.data(), hashSize, 0, &prev);
+                    if (!cur)
+                        break;
+
+                    CATALOG_INFO info = {};
+                    info.cbStruct = sizeof(info);
+                    LONG status = CRYPT_E_NOT_FOUND;
+                    if (CryptCATCatalogInfoFromContext(cur, &info, 0)) {
+                        WINTRUST_CATALOG_INFO catData = {};
+                        catData.cbStruct = sizeof(catData);
+                        catData.pcwszCatalogFilePath = info.wszCatalogFile;
+                        catData.pcwszMemberFilePath = widePath.c_str();
+                        catData.pcwszMemberTag = L"File";
+                        catData.pbCalculatedFileHash = hash.data();
+                        catData.cbCalculatedFileHash = hashSize;
+
+                        WINTRUST_DATA wtd = {};
+                        wtd.cbStruct = sizeof(wtd);
+                        wtd.dwUIChoice = WTD_UI_NONE;
+                        wtd.fdwRevocationChecks = WTD_REVOKE_NONE;
+                        wtd.dwUnionChoice = WTD_CHOICE_CATALOG;
+                        wtd.dwStateAction = WTD_STATEACTION_VERIFY;
+                        wtd.dwProvFlags = WTD_CACHE_ONLY_URL_RETRIEVAL;
+                        wtd.dwUIContext = WTD_UICONTEXT_EXECUTE;
+                        wtd.pCatalog = &catData;
+
+                        GUID genericAction = WINTRUST_ACTION_GENERIC_VERIFY_V2;
+                        status = WinVerifyTrust(
+                            static_cast<HWND>(INVALID_HANDLE_VALUE),
+                            &genericAction,
+                            &wtd);
+
+                        wtd.dwStateAction = WTD_STATEACTION_CLOSE;
+                        WinVerifyTrust(static_cast<HWND>(INVALID_HANDLE_VALUE),
+                                       &genericAction, &wtd);
+
+                        if (status == ERROR_SUCCESS) {
+                            verified = true;
+                            if (publisher)
+                                *publisher = getPublisherName(
+                                    QString::fromWCharArray(info.wszCatalogFile));
+                        }
+                    }
+
+                    if (prev)
+                        CryptCATAdminReleaseCatalogContext(catAdmin, prev, 0);
+                    prev = cur;
+
+                    if (verified)
+                        break;
+                }
+
+                if (prev)
+                    CryptCATAdminReleaseCatalogContext(catAdmin, prev, 0);
+            }
+        }
+        CryptCATAdminReleaseContext(catAdmin, 0);
+    }
+
+    CloseHandle(file);
+    return verified;
+}
+
 SignatureResult SignatureChecker::check(const QString &filePath)
 {
     SignatureResult result;
@@ -194,6 +281,18 @@ SignatureResult SignatureChecker::check(const QString &filePath)
     WinVerifyTrust(static_cast<HWND>(INVALID_HANDLE_VALUE), &genericAction, &wtd);
 
     result.status = mapWinVerifyError(trustStatus);
+
+    if (result.status == SignatureResult::Unsigned) {
+        QString catalogPublisher;
+        if (verifyWithCatalogs(filePath, &catalogPublisher)) {
+            result.status = SignatureResult::Verified;
+            result.publisher = catalogPublisher;
+            result.details = catalogPublisher.isEmpty()
+                ? QStringLiteral("Signature verified via security catalog")
+                : QStringLiteral("Signed by: %1 (security catalog)").arg(catalogPublisher);
+            return result;
+        }
+    }
 
     if (result.status == SignatureResult::Verified) {
         result.publisher = getPublisherName(filePath);

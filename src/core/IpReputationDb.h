@@ -12,11 +12,12 @@ struct IpReputationEntry
     QString cidr;
     QString label;
     bool isSafe = false;
+    bool weak = false;
 };
 
 struct IpReputationResult
 {
-    enum Status { Unknown, Safe, Suspicious };
+    enum Status { Unknown, Safe, Suspicious, Weak };
     Status status = Unknown;
     QString label;
 };

@@ -11,6 +11,13 @@ struct FirewallRule
     enum class Action { Allow, Block };
     enum class Protocol { TCP, UDP, Any };
 
+    enum ProfileFlag {
+        ProfileDomain  = 1,
+        ProfilePrivate = 2,
+        ProfilePublic  = 4,
+        ProfileAll     = ProfileDomain | ProfilePrivate | ProfilePublic
+    };
+
     QString id;
     QString name;
     QString description;
@@ -23,6 +30,8 @@ struct FirewallRule
     QVector<int> localPorts;
     QVector<int> remotePorts;
     QVector<QString> remoteAddresses;
+
+    int profiles = ProfileAll;
 
     bool enabled = true;
 };

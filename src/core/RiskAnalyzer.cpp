@@ -4,10 +4,13 @@
 #include "ThreatDatabase.h"
 #include "IpReputationDb.h"
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
+#include <QHash>
+#include <QSettings>
 #include <QStandardPaths>
+
+RiskAnalyzer::Sensitivity RiskAnalyzer::s_sensitivity = Sensitivity::Balanced;
 
 QColor RiskResult::backgroundColor() const
 {
@@ -31,6 +34,27 @@ QString RiskResult::levelText() const
     case Critical: return QStringLiteral("Critical");
     }
     return {};
+}
+
+void RiskAnalyzer::setSensitivity(Sensitivity s)
+{
+    s_sensitivity = s;
+}
+
+RiskAnalyzer::Sensitivity RiskAnalyzer::sensitivity()
+{
+    return s_sensitivity;
+}
+
+void RiskAnalyzer::loadSettings()
+{
+    QSettings settings(QStringLiteral("Vigil Fluminis"), QStringLiteral("Vigil Fluminis"));
+    int value = settings.value(QStringLiteral("scoring/sensitivity"),
+        static_cast<int>(Sensitivity::Balanced)).toInt();
+    if (value < static_cast<int>(Sensitivity::Relaxed) ||
+        value > static_cast<int>(Sensitivity::Strict))
+        value = static_cast<int>(Sensitivity::Balanced);
+    s_sensitivity = static_cast<Sensitivity>(value);
 }
 
 QString RiskAnalyzer::suspiciousPathInfo(const QString &appPath)
@@ -103,73 +127,159 @@ QString RiskAnalyzer::permissiveRuleInfo(const FirewallRule &rule)
     if (rule.protocol == FirewallRule::Protocol::Any)
         reasons.append(QStringLiteral("Any protocol"));
 
-    if (rule.applicationPath.isEmpty())
-        reasons.append(QStringLiteral("No app restriction"));
-
-    if (rule.direction == FirewallRule::Direction::Outbound &&
-        rule.applicationPath.isEmpty())
-        reasons.append(QStringLiteral("Outbound + no app restriction"));
-
     return reasons.isEmpty() ? QString() : reasons.join(QStringLiteral(", "));
 }
 
-static bool isSuspiciousPath(const QString &appPath)
+RiskAnalyzer::BinaryTrust RiskAnalyzer::binaryTrust(const QString &appPath)
 {
-    return !RiskAnalyzer::suspiciousPathInfo(appPath).isEmpty();
+    static QHash<QString, BinaryTrust> cache;
+
+    auto it = cache.constFind(appPath);
+    if (it != cache.constEnd())
+        return it.value();
+
+    BinaryTrust info;
+
+    SignatureResult sig = SignatureChecker::check(appPath);
+    info.trusted = sig.isTrusted();
+    info.publisher = sig.publisher;
+
+    if (!info.trusted) {
+        FileInfoResult fi = FileAnalyzer::analyze(appPath);
+        info.knownPublisher = FileAnalyzer::isKnownPublisher(fi.companyName);
+    }
+
+    cache.insert(appPath, info);
+    return info;
 }
+
+namespace {
+
+int permissiveCriteriaCount(const FirewallRule &rule)
+{
+    int criteria = 0;
+
+    if (rule.remoteAddresses.isEmpty() ||
+        rule.remoteAddresses.contains(QStringLiteral("*")) ||
+        rule.remoteAddresses.contains(QStringLiteral("any")))
+        ++criteria;
+
+    if (rule.remotePorts.isEmpty())
+        ++criteria;
+
+    if (rule.protocol == FirewallRule::Protocol::Any)
+        ++criteria;
+
+    return criteria;
+}
+
+} // namespace
 
 RiskResult RiskAnalyzer::analyze(const FirewallRule &rule)
 {
     RiskResult result;
 
+    if (!rule.enabled)
+        return result;
+
     if (rule.action != FirewallRule::Action::Allow)
         return result;
 
-    if (ThreatDatabase::isRiskyRule(rule)) {
-        result.score += 3;
-        auto risks = ThreatDatabase::riskDescriptions(rule);
-        for (const auto &r : risks)
+    const bool inbound = rule.direction == FirewallRule::Direction::Inbound;
+
+    const int portPoints = ThreatDatabase::riskyPortPoints(rule);
+    if (portPoints > 0) {
+        result.score += portPoints;
+        for (const auto &r : ThreatDatabase::riskDescriptions(rule))
             result.details.append(r);
     }
 
     if (rule.applicationPath.isEmpty()) {
         result.score += 2;
-        result.details.append(QStringLiteral("No application path - applies to all executables"));
+        result.details.append(
+            QStringLiteral("No application path - applies to all executables"));
     } else {
-        if (isSuspiciousPath(rule.applicationPath)) {
-            result.score += 2;
-            result.details.append(QStringLiteral("Application runs from a user-writable directory")
-                + QStringLiteral(" (%1)").arg(QDir::toNativeSeparators(rule.applicationPath)));
+        const bool pathSuspicious = !suspiciousPathInfo(rule.applicationPath).isEmpty();
+
+        BinaryTrust trust;
+        bool haveTrust = false;
+
+        if (pathSuspicious) {
+            trust = binaryTrust(rule.applicationPath);
+            haveTrust = true;
+
+            if (trust.trusted) {
+                result.details.append(QStringLiteral("Digitally signed (%1)")
+                    .arg(trust.publisher.isEmpty()
+                        ? QStringLiteral("verified publisher")
+                        : trust.publisher));
+            } else {
+                result.score += 2;
+                result.details.append(
+                    QStringLiteral("Application runs from a user-writable directory")
+                    + QStringLiteral(" (%1)")
+                          .arg(QDir::toNativeSeparators(rule.applicationPath)));
+            }
         }
 
-        QString ageInfo = suspiciousFileAgeInfo(rule.applicationPath);
-        if (!ageInfo.isEmpty()) {
-            result.score += 1;
-            result.details.append(ageInfo);
+        if (result.score > 0) {
+            QString ageInfo = suspiciousFileAgeInfo(rule.applicationPath);
+            if (!ageInfo.isEmpty()) {
+                if (!haveTrust) {
+                    trust = binaryTrust(rule.applicationPath);
+                    haveTrust = true;
+                    if (trust.trusted) {
+                        result.details.append(QStringLiteral("Digitally signed (%1)")
+                            .arg(trust.publisher.isEmpty()
+                                ? QStringLiteral("verified publisher")
+                                : trust.publisher));
+                    }
+                }
+                if (!(trust.trusted || trust.knownPublisher)) {
+                    result.score += 1;
+                    result.details.append(ageInfo);
+                }
+            }
         }
     }
 
-    if (rule.action == FirewallRule::Action::Allow && !rule.remoteAddresses.isEmpty()) {
-        bool hasSuspicious = false;
+    if (!rule.remoteAddresses.isEmpty()) {
+        QStringList strongLabels;
+        QStringList weakLabels;
         bool hasSafe = false;
-        QStringList labels;
+
         for (const auto &addr : rule.remoteAddresses) {
             if (addr == QStringLiteral("*") || addr == QStringLiteral("any"))
                 continue;
             auto ipRes = IpReputationDb::checkIp(addr);
-            if (ipRes.status == IpReputationResult::Suspicious) {
-                hasSuspicious = true;
-                labels.append(ipRes.label);
-            } else if (ipRes.status == IpReputationResult::Safe) {
+            switch (ipRes.status) {
+            case IpReputationResult::Suspicious:
+                strongLabels.append(ipRes.label);
+                break;
+            case IpReputationResult::Weak:
+                weakLabels.append(ipRes.label);
+                break;
+            case IpReputationResult::Safe:
                 hasSafe = true;
+                break;
+            default:
+                break;
             }
         }
-        if (hasSuspicious) {
+
+        if (!strongLabels.isEmpty()) {
             result.score += 3;
             result.details.append(QStringLiteral("Remote address known suspicious: %1")
-                .arg(labels.join(QStringLiteral(", "))));
+                .arg(strongLabels.join(QStringLiteral(", "))));
             result.ipRepText = QStringLiteral("Suspicious");
-            result.ipRepTooltip = labels.join(QStringLiteral(", "));
+            result.ipRepTooltip = strongLabels.join(QStringLiteral(", "));
+        } else if (!weakLabels.isEmpty()) {
+            result.score += 1;
+            result.details.append(
+                QStringLiteral("Remote address in hosting-provider range (weak signal): %1")
+                    .arg(weakLabels.join(QStringLiteral(", "))));
+            result.ipRepText = QStringLiteral("Weak");
+            result.ipRepTooltip = weakLabels.join(QStringLiteral(", "));
         } else if (hasSafe) {
             result.ipRepText = QStringLiteral("Safe");
             result.ipRepTooltip = QStringLiteral("Known safe address");
@@ -180,28 +290,40 @@ RiskResult RiskAnalyzer::analyze(const FirewallRule &rule)
         result.ipRepText = QStringLiteral("Unknown");
     }
 
-    QString permissive = permissiveRuleInfo(rule);
-    if (!permissive.isEmpty()) {
-        int points = 0;
-        if (rule.remoteAddresses.isEmpty() || rule.remoteAddresses.contains(QStringLiteral("*")) || rule.remoteAddresses.contains(QStringLiteral("any")))
-            ++points;
-        if (rule.remotePorts.isEmpty())
-            ++points;
-        if (rule.protocol == FirewallRule::Protocol::Any)
-            ++points;
-        if (rule.applicationPath.isEmpty())
-            ++points;
-        if (rule.direction == FirewallRule::Direction::Outbound && rule.applicationPath.isEmpty())
+    const int criteria = permissiveCriteriaCount(rule);
+    if (criteria > 0) {
+        int points = inbound ? qMin(criteria, 3) : qMin(criteria, 1);
+        if (inbound && (rule.profiles & FirewallRule::ProfilePublic))
             ++points;
         result.score += points;
-        result.details.append(QStringLiteral("Overly permissive: %1").arg(permissive));
+        result.details.append(QStringLiteral("Overly permissive: %1")
+            .arg(permissiveRuleInfo(rule)));
     }
 
-    if (result.score >= 6)
+    if ((rule.profiles & FirewallRule::ProfilePublic) == 0 && result.score > 0) {
+        --result.score;
+        result.details.append(QStringLiteral("Restricted to Domain/Private profile"));
+    }
+
+    int mediumAt = 3;
+    int highAt = 5;
+    int criticalAt = 8;
+    switch (s_sensitivity) {
+    case Sensitivity::Relaxed:
+        mediumAt = 4; highAt = 6; criticalAt = 9;
+        break;
+    case Sensitivity::Strict:
+        mediumAt = 2; highAt = 4; criticalAt = 6;
+        break;
+    case Sensitivity::Balanced:
+        break;
+    }
+
+    if (result.score >= criticalAt)
         result.level = RiskResult::Critical;
-    else if (result.score >= 4)
+    else if (result.score >= highAt)
         result.level = RiskResult::High;
-    else if (result.score >= 2)
+    else if (result.score >= mediumAt)
         result.level = RiskResult::Medium;
     else if (result.score >= 1)
         result.level = RiskResult::Low;

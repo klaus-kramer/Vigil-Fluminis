@@ -17,9 +17,17 @@ struct DefaultEntry {
     const char *cidr;
     const char *label;
     bool isSafe;
+    bool weak = false;
 };
 
 static const DefaultEntry s_defaults[] = {
+    { "10.0.0.0/8",      "Private network (RFC1918)", true },
+    { "172.16.0.0/12",   "Private network (RFC1918)", true },
+    { "192.168.0.0/16",  "Private network (RFC1918)", true },
+    { "127.0.0.0/8",     "Loopback", true },
+    { "169.254.0.0/16",  "Link-local", true },
+    { "224.0.0.0/4",     "Multicast", true },
+    { "255.255.255.255/32", "Broadcast", true },
     { "8.8.8.0/24",     "Google DNS", true },
     { "8.8.4.0/24",     "Google DNS", true },
     { "1.1.1.0/24",     "Cloudflare DNS", true },
@@ -126,75 +134,75 @@ static const DefaultEntry s_defaults[] = {
     { "206.83.128.0/21","Known Malicious (Spamhaus)", false },
     { "206.221.0.0/16", "Known Malicious (Spamhaus)", false },
 
-    { "45.55.0.0/16",   "DigitalOcean (C2 risk)", false },
-    { "68.183.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "95.85.0.0/16",   "DigitalOcean (C2 risk)", false },
-    { "104.131.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "104.236.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "104.248.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "107.170.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "128.199.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "134.122.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "134.209.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "137.184.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "138.68.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "138.197.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "142.93.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "143.110.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "143.198.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "146.190.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "147.182.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "157.230.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "157.245.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "159.65.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "159.89.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "159.203.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "159.223.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "161.35.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "162.243.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "164.90.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "165.22.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "165.227.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "167.71.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "167.99.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "167.172.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "174.138.0.0/17", "DigitalOcean (C2 risk)", false },
-    { "178.62.0.0/16",  "DigitalOcean (C2 risk)", false },
-    { "178.128.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "188.166.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "192.241.128.0/17", "DigitalOcean (C2 risk)", false },
-    { "198.199.64.0/18", "DigitalOcean (C2 risk)", false },
-    { "206.189.0.0/16", "DigitalOcean (C2 risk)", false },
-    { "207.154.192.0/18", "DigitalOcean (C2 risk)", false },
-    { "209.38.0.0/16",  "DigitalOcean (C2 risk)", false },
+    { "45.55.0.0/16",   "DigitalOcean (C2 risk)", false, true },
+    { "68.183.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "95.85.0.0/16",   "DigitalOcean (C2 risk)", false, true },
+    { "104.131.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "104.236.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "104.248.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "107.170.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "128.199.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "134.122.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "134.209.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "137.184.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "138.68.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "138.197.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "142.93.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "143.110.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "143.198.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "146.190.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "147.182.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "157.230.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "157.245.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "159.65.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "159.89.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "159.203.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "159.223.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "161.35.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "162.243.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "164.90.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "165.22.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "165.227.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "167.71.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "167.99.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "167.172.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "174.138.0.0/17", "DigitalOcean (C2 risk)", false, true },
+    { "178.62.0.0/16",  "DigitalOcean (C2 risk)", false, true },
+    { "178.128.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "188.166.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "192.241.128.0/17", "DigitalOcean (C2 risk)", false, true },
+    { "198.199.64.0/18", "DigitalOcean (C2 risk)", false, true },
+    { "206.189.0.0/16", "DigitalOcean (C2 risk)", false, true },
+    { "207.154.192.0/18", "DigitalOcean (C2 risk)", false, true },
+    { "209.38.0.0/16",  "DigitalOcean (C2 risk)", false, true },
 
-    { "5.9.0.0/16",     "Hetzner (C2 risk)", false },
-    { "46.4.0.0/16",    "Hetzner (C2 risk)", false },
-    { "49.12.0.0/16",   "Hetzner (C2 risk)", false },
-    { "49.13.0.0/16",   "Hetzner (C2 risk)", false },
-    { "65.21.0.0/16",   "Hetzner (C2 risk)", false },
-    { "65.108.0.0/16",  "Hetzner (C2 risk)", false },
-    { "78.46.0.0/15",   "Hetzner (C2 risk)", false },
-    { "85.10.192.0/18", "Hetzner (C2 risk)", false },
-    { "88.198.0.0/16",  "Hetzner (C2 risk)", false },
-    { "94.130.0.0/16",  "Hetzner (C2 risk)", false },
-    { "95.216.0.0/16",  "Hetzner (C2 risk)", false },
-    { "116.202.0.0/16", "Hetzner (C2 risk)", false },
-    { "136.243.0.0/16", "Hetzner (C2 risk)", false },
-    { "138.201.0.0/16", "Hetzner (C2 risk)", false },
-    { "142.132.0.0/16", "Hetzner (C2 risk)", false },
-    { "144.76.0.0/16",  "Hetzner (C2 risk)", false },
-    { "148.251.0.0/16", "Hetzner (C2 risk)", false },
-    { "157.90.0.0/16",  "Hetzner (C2 risk)", false },
-    { "159.69.0.0/16",  "Hetzner (C2 risk)", false },
-    { "162.55.0.0/16",  "Hetzner (C2 risk)", false },
-    { "167.235.0.0/16", "Hetzner (C2 risk)", false },
-    { "168.119.0.0/16", "Hetzner (C2 risk)", false },
-    { "176.9.0.0/16",   "Hetzner (C2 risk)", false },
-    { "188.40.0.0/16",  "Hetzner (C2 risk)", false },
-    { "195.201.0.0/16", "Hetzner (C2 risk)", false },
-    { "213.133.96.0/19", "Hetzner (C2 risk)", false },
-    { "213.239.192.0/18", "Hetzner (C2 risk)", false },
+    { "5.9.0.0/16",     "Hetzner (C2 risk)", false, true },
+    { "46.4.0.0/16",    "Hetzner (C2 risk)", false, true },
+    { "49.12.0.0/16",   "Hetzner (C2 risk)", false, true },
+    { "49.13.0.0/16",   "Hetzner (C2 risk)", false, true },
+    { "65.21.0.0/16",   "Hetzner (C2 risk)", false, true },
+    { "65.108.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "78.46.0.0/15",   "Hetzner (C2 risk)", false, true },
+    { "85.10.192.0/18", "Hetzner (C2 risk)", false, true },
+    { "88.198.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "94.130.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "95.216.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "116.202.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "136.243.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "138.201.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "142.132.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "144.76.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "148.251.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "157.90.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "159.69.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "162.55.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "167.235.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "168.119.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "176.9.0.0/16",   "Hetzner (C2 risk)", false, true },
+    { "188.40.0.0/16",  "Hetzner (C2 risk)", false, true },
+    { "195.201.0.0/16", "Hetzner (C2 risk)", false, true },
+    { "213.133.96.0/19", "Hetzner (C2 risk)", false, true },
+    { "213.239.192.0/18", "Hetzner (C2 risk)", false, true },
 };
 static const int s_defaultCount = sizeof(s_defaults) / sizeof(s_defaults[0]);
 
@@ -238,6 +246,8 @@ void IpReputationDb::writeDefaults(const QString &path)
             QJsonObject obj;
             obj[QStringLiteral("cidr")]  = QString::fromUtf8(s_defaults[i].cidr);
             obj[QStringLiteral("label")] = QString::fromUtf8(s_defaults[i].label);
+            if (!s_defaults[i].isSafe && s_defaults[i].weak)
+                obj[QStringLiteral("weak")] = true;
             arr.append(obj);
         }
         root[QString::fromUtf8(category)] = arr;
@@ -286,6 +296,11 @@ void IpReputationDb::ensureLoaded()
                     e.cidr   = entry[QStringLiteral("cidr")].toString();
                     e.label  = entry[QStringLiteral("label")].toString();
                     e.isSafe = isSafe;
+                    if (!isSafe) {
+                        e.weak = entry[QStringLiteral("weak")].toBool(false);
+                        if (!e.weak && e.label.contains(QStringLiteral("(C2 risk)")))
+                            e.weak = true;
+                    }
                     parseEntry(e);
                     s_entries.append(e);
                 }
@@ -302,6 +317,7 @@ void IpReputationDb::ensureLoaded()
         e.cidr   = QString::fromUtf8(s_defaults[i].cidr);
         e.label  = QString::fromUtf8(s_defaults[i].label);
         e.isSafe = s_defaults[i].isSafe;
+        e.weak   = !s_defaults[i].isSafe && s_defaults[i].weak;
         parseEntry(e);
         s_entries.append(e);
     }
@@ -317,8 +333,13 @@ IpReputationResult IpReputationDb::checkIp(const QString &ip)
         return { IpReputationResult::Unknown, {} };
 
     for (const auto &e : s_entries) {
-        if (!e.isSafe && (raw & e.mask) == e.baseAddr)
+        if (!e.isSafe && !e.weak && (raw & e.mask) == e.baseAddr)
             return { IpReputationResult::Suspicious, e.label };
+    }
+
+    for (const auto &e : s_entries) {
+        if (!e.isSafe && e.weak && (raw & e.mask) == e.baseAddr)
+            return { IpReputationResult::Weak, e.label };
     }
 
     for (const auto &e : s_entries) {

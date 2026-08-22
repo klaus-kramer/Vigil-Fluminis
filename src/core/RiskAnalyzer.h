@@ -3,6 +3,8 @@
 #pragma once
 
 #include "FirewallRule.h"
+#include "FileAnalyzer.h"
+#include "SignatureChecker.h"
 #include <QColor>
 #include <QString>
 #include <QStringList>
@@ -26,11 +28,29 @@ struct RiskResult
 class RiskAnalyzer
 {
 public:
+    enum class Sensitivity { Relaxed = 0, Balanced = 1, Strict = 2 };
+
     static RiskResult analyze(const FirewallRule &rule);
+
+    static void setSensitivity(Sensitivity s);
+    static Sensitivity sensitivity();
+    static void loadSettings();
 
     static QString suspiciousPathInfo(const QString &appPath);
 
     static QString suspiciousFileAgeInfo(const QString &appPath);
 
     static QString permissiveRuleInfo(const FirewallRule &rule);
+
+private:
+    struct BinaryTrust
+    {
+        bool trusted = false;
+        bool knownPublisher = false;
+        QString publisher;
+    };
+
+    static BinaryTrust binaryTrust(const QString &appPath);
+
+    static Sensitivity s_sensitivity;
 };
