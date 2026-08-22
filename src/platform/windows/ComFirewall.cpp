@@ -442,5 +442,12 @@ FirewallRule ComFirewall::fromComRule(INetFwRule *comRule) const
     if (SUCCEEDED(comRule->get_Enabled(&enabled)))
         rule.enabled = (enabled == VARIANT_TRUE);
 
+    long profileBits = 0;
+    if (SUCCEEDED(comRule->get_Profiles(&profileBits)) && profileBits != 0) {
+        int masked = static_cast<int>(profileBits) & FirewallRule::ProfileAll;
+        if (masked != 0)
+            rule.profiles = masked;
+    }
+
     return rule;
 }
