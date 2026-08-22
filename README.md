@@ -8,7 +8,8 @@ Built with C++/llama.cpp/Qt. No installer, just unzip the Release and run.
 - Active connection monitoring with IP reputation checks    
 - App signature verification
 - optional: locally running AI assistant for evaluation of the rule/app/connection    
-- simple Trojan detection test – detects data exchange during user input (admin req.)    
+- simple Trojan detection test – detects data exchange during user input (admin req.)
+- NEW v0.6.0: all from Microsoft is default unsuspicious (change in Options) - that decreases the confusing mass of suspicious-messages    
 
 
 # Usage:    
