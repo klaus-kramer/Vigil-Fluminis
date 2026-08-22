@@ -9,7 +9,7 @@ Built with C++/llama.cpp/Qt. No installer, just unzip the Release and run.
 - App signature verification
 - optional: locally running AI assistant for evaluation of the rule/app/connection    
 - simple Trojan detection test – detects data exchange during user input (admin req.)
-- NEW v0.6.0: all from Microsoft is default unsuspicious (change in Options) - that decreases the confusing mass of suspicious-messages    
+- NEW v0.6.0: all from Microsoft is default unsuspicious (change in Options) - to decrease the confusing mass of suspicious-messages    
 
 
 # Usage:    
