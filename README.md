@@ -64,5 +64,6 @@ and put it for example in the models-directory. (btw:qwen2.5-7b-q4_k_m-imat woul
 use the build-batches    
 
 # links:
-my new ai-agent https://github.com/klaus-kramer/agent-minimal    
-my new ai Grimmelshausen https://huggingface.co/Klaus-Kramer/Grimmelshausen
+my new simple windows-ids https://github.com/klaus-kramer/windows-simple-ids
+my ai-agent https://github.com/klaus-kramer/agent-minimal    
+my ai Grimmelshausen https://huggingface.co/Klaus-Kramer/Grimmelshausen
